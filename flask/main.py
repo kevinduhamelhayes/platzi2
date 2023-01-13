@@ -1,7 +1,8 @@
-from flask import Flask, request, make_response, redirect, render_template
+from flask import Flask, request,make_response, redirect, render_template
 
-app= Flask(__name__)
+app = Flask(__name__)
 
+todos = ['Comprar Cafe', 'Enviar Solicitud de compra', 'Entregar video a productor']
 @app.route('/')
 def index():
     user_ip = request.remote_addr
@@ -11,7 +12,14 @@ def index():
 
     return response
 
+
 @app.route('/hello')
 def hello():
+
     user_ip = request.cookies.get('user_ip')
-    return render_template('hello.html', user_ip=user_ip)
+    context = {
+        'user_ip': user_ip,
+        'todos': todos
+    }
+
+    return render_template('hello.html',**context)
